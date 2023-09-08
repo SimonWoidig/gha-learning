@@ -20,11 +20,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Cache Go installation
-        uses: actions/cache@v3
-        with:
-          key: "${{ github.repository }}-${{ runner.os }}-go"
-          path: "/opt/hostedtoolcache/go"
+      # - name: Cache Go installation
+      #   uses: actions/cache@v3
+      #   with:
+      #     key: "${{ github.repository }}-${{ runner.os }}-go"
+      #     path: "/opt/hostedtoolcache/go"
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
