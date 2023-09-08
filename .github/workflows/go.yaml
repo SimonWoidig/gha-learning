@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  ACT: false
+
 jobs:
   build-backend:
     runs-on: ubuntu-latest
@@ -31,11 +34,12 @@ jobs:
       - name: Build
         env:
           CGO_ENABLED: 0
-        run: env && go build -v ./...
+        run: go build -v ./...
       - name: Test
         run: go test -v ./...
       - name: Setup buildah
         run: apt-get update && apt-get -y install buildah
+        if: ${{ env.ACT }}
       - name: Build image
         uses: redhat-actions/buildah-build@v2
         with:
