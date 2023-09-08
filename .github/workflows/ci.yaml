@@ -68,4 +68,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Component package
-          path: build/libs
+          path: "${{ env.dir }}/build/libs"
