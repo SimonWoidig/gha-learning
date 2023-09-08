@@ -1,4 +1,4 @@
-name: Go
+name: CI
 
 on:
   push:
@@ -42,3 +42,30 @@ jobs:
           tags: "${{ github.sha }}"
           context: "${{ env.dir }}"
           containerfiles: "${{ env.dir }}/docker/Containerfile"
+  build-component:
+    runs-on: ubuntu-latest
+    env:
+      dir: component
+    defaults:
+      run:
+        working-directory: "${{ env.dir }}"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set-up JDK
+        uses: actions/setup-java@v3
+        with:
+          cache: "gradle"
+          java-version: 17
+          distribution: "temurin"
+          check-latest: true
+      - name: Validate Gradle wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      - name: Run Gradle build
+        run: ./gradlew bootJar
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Component package
+          path: build/libs
